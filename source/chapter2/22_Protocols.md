@@ -171,7 +171,7 @@ class LinearCongruentialGenerator: RandomNumberGenerator {
 	let a = 3877.0
 	let c = 29573.0
 	func random() -> Double {
-		lastRandom = ((lastRandom * a + c) % m)
+		lastRandom = ((lastRandom * a + c).truncatingRemainder(dividingBy:m))
 		return lastRandom / m
 	}
 }
@@ -208,17 +208,17 @@ protocol Togglable {
 
 ```swift
 enum OnOffSwitch: Togglable {
-	case Off, On
-	mutating func toggle() {
-		switch self {
-		case Off:
-			self = On
-		case On:
-			self = Off
-		}
-	}
+    case off, on
+    mutating func toggle() {
+        switch self {
+        case .off:
+            self = .on
+        case .on:
+            self = .off
+        }
+    }
 }
-var lightSwitch = OnOffSwitch.Off
+var lightSwitch = OnOffSwitch.off
 lightSwitch.toggle()
 // lightSwitch 现在的值为 .On
 ```
